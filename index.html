@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Khlemn Cipher Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2em;
+      background-color: #f4f4f9;
+      max-width: 800px;
+      margin: auto;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    textarea, input, button {
+      width: 100%;
+      padding: 1em;
+      margin: 0.5em 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .output {
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 1em;
+      min-height: 50px;
+      white-space: pre-wrap;
+      border-radius: 8px;
+    }
+    .section {
+      margin-bottom: 2em;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Khlemn Cipher Tool</h1>
+
+  <div class="section">
+    <h2>🔐 Encode</h2>
+    <textarea id="plaintext" placeholder="Enter normal text (e.g., The quick brown fox)..."></textarea>
+    <button onclick="encodeKhlemn()">Encode</button>
+    <h3>Encoded Cipher:</h3>
+    <div class="output" id="encodedOutput"></div>
+  </div>
+
+  <div class="section">
+    <h2>🔓 Decode</h2>
+    <textarea id="encoded" placeholder="Enter cipher text (e.g., gbcbbb...)"></textarea>
+    <button onclick="decodeKhlemn()">Decode</button>
+    <h3>Decoded Text:</h3>
+    <div class="output" id="decodedOutput"></div>
+  </div>
+
+  <div class="section">
+    <h2>📘 About the Khlemn Cipher</h2>
+    <p>
+      The <strong>Khlemn Cipher</strong> is a custom substitution cipher where each uppercase letter is replaced by a unique two-letter code. For example, A = "aa", B = "ab", ..., Z = "ib", and spaces are represented as "22". This makes it a fixed-length encoding useful for obscuring messages while maintaining predictable decoding.
+    </p>
+    <p>
+      It is ideal for simple message hiding or educational cipher demonstrations. All characters are case-insensitive and must be uppercase letters or spaces to be properly encoded.
+    </p>
+  </div>
+
+  <script>
+    const encodeMap = {
+      A: 'aa', B: 'ab', C: 'ac', D: 'ba', E: 'bb', F: 'bc',
+      G: 'ca', H: 'cb', I: 'cc', J: 'da', K: 'db', L: 'dc',
+      M: 'ea', N: 'eb', O: 'ec', P: 'fa', Q: 'fb', R: 'fc',
+      S: 'ga', T: 'gb', U: 'gc', V: 'ha', W: 'hb', X: 'hc',
+      Y: 'ia', Z: 'ib', ' ': '22'
+    };
+
+    const decodeMap = Object.fromEntries(
+      Object.entries(encodeMap).map(([k, v]) => [v, k])
+    );
+
+    function encodeKhlemn() {
+      const input = document.getElementById('plaintext').value.toUpperCase();
+      let result = '';
+      for (let char of input) {
+        result += encodeMap[char] || '?';
+      }
+      document.getElementById('encodedOutput').textContent = result;
+    }
+
+    function decodeKhlemn() {
+      const input = document.getElementById('encoded').value.trim();
+      let result = '';
+      for (let i = 0; i < input.length; i += 2) {
+        const pair = input.slice(i, i + 2);
+        result += decodeMap[pair] || '?';
+      }
+      document.getElementById('decodedOutput').textContent = result;
+    }
+  </script>
+
+</body>
+</html>
